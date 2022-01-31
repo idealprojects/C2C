@@ -1,0 +1,69 @@
+
+
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<title> Manageusers </title>
+<link rel='stylesheet' href='http://localhost:2020//css/icons.css'>
+<link rel='stylesheet' href='http://localhost:2020//css/media.css'>
+<link rel='stylesheet' href='http://localhost:2020//css/global.css'>
+<link rel='stylesheet' href='http://localhost:2020//css/common.css'>
+<link rel='stylesheet' href='http://localhost:2020//css/elements.css'>
+<link rel='stylesheet' href='http://localhost:2020//css/typography.css'>
+<link rel='stylesheet' href='http://localhost:2020//css/components.css'>
+</head>
+<body>
+</body>
+</html>
+<script src='http://localhost:2020/js/sentence.js'></script>
+<script src='http://localhost:2020/js/common.js'></script>
+<script src='http://localhost:2020/js/elements.js'></script>
+<script src='http://localhost:2020/js/components.js'></script>
+<script src='http://localhost:2020/js/data.js'></script>
+<script src='js/config.js'></script>
+<script>
+let options = {
+id:'users',
+primaryKey: 'id', 
+toolbar : {print: true, export: true, search : true}, 
+    fields: [
+{name: 'name', viewAs: 'text',  editAs: 'text', insertAs: 'text'},
+{name: 'email', viewAs: 'text',  editAs: 'text', insertAs: 'text'},
+{name: 'userId', viewAs: 'text',  editAs: 'text', insertAs: 'text'},
+{name: 'password', viewAs: 'text',  editAs: 'text', insertAs: 'text'},
+{name: 'verified', viewAs: 'checkbox',  editAs: 'checkbox', insertAs: 'checkbox'},
+{name: 'company', viewAs: 'text',  editAs: 'text', insertAs: 'text'},
+{name: 'appreviation', viewAs: 'text',  editAs: 'text', insertAs: 'text'},
+{name: 'phone', viewAs: 'text',  editAs: 'text', insertAs: 'text'},
+{name: 'fax', viewAs: 'text',  editAs: 'text', insertAs: 'text'},
+{name: 'website', viewAs: 'text',  editAs: 'text', insertAs: 'text'},
+{name: 'facebook', viewAs: 'text',  editAs: 'text', insertAs: 'text'},
+{name: 'twitter', viewAs: 'text',  editAs: 'text', insertAs: 'text'},
+{name: 'isSeller', viewAs: 'checkbox',  editAs: 'checkbox', insertAs: 'checkbox'},
+{name: 'sellerListings', viewAs: 'number',  editAs: 'number', insertAs: 'number'},
+{name: 'sellerBalance', viewAs: 'number',  editAs: 'number', insertAs: 'number'},
+{name: 'isBuyer', viewAs: 'checkbox',  editAs: 'checkbox', insertAs: 'checkbox'},
+{name: 'buyerBids', viewAs: 'number',  editAs: 'number', insertAs: 'number'},
+{name: 'id', viewAs: 'number',  editAs: 'number', insertAs: 'number'},
+],
+data    :   [],
+update: {endPoint : 'users/post'    , parameters : {}},
+insert: {endPoint : 'users/put'     , parameters : {}},
+remove: {endPoint : 'users/delete'  , parameters : {}},
+get   : {endPoint : 'users/get'     , parameters : {}},
+pageSize:15,
+page:1
+}
+ 
+ 
+ 
+window.onload = async () => { 
+render(loader(), document.body);
+await GET({url:options.get.endPoint,parameters :{}}).then( response => {
+options.data = response.data;
+render(gridView(options), document.body);
+loaderUI.remove();
+}); 
+}
+</script>

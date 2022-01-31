@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C2C - Exchange ( Sign In )</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/common.js"></script>
+    <script src="js/sentence.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/data.js"></script>
+    <style>
+         
+
+           input { background-color:#746EAE; color:#fff; box-sizing: border-box; width: 100%;  }
+            
+    </style>
+</head>
+<body>
+   
+
+</body>
+</html>
+
+
+<script>
+
+let layout = { type:'div', elements: 
+                        [   
+                            pageHeader(), 
+                            {type:'div', attributes:{style:'width:980px; margin:auto; display: grid; grid-template-columns: 200px 1fr; padding:20px; font-size:12px; min-height:600px'}, 
+                                elements: 
+                                    [
+                                        inlineMenu(menuItems), 
+                                        {type:'div', attributes: {id:'workArea', style:'padding:20px;'}, 
+                                            elements: 
+                                                [ 
+                                                    caption('My Sales'), 
+                                                     
+                                                    newLot , 
+
+                                                    seperator(),
+                                                    caption('Pending Approval'),  
+                                                    {type:'div', attributes: {id:'pendingLotsCount'},    content: {innerHTML:''}}, 
+                                                    {type:'div', attributes: {id:'pendingArea', style:'margin-top:20px'}}, 
+                                                    seperator(), 
+                                                    
+                                                    caption('Active Lots'),   
+                                                    {type:'div', attributes: {id:'activeLotsCount'},    content: {innerHTML:''}}, 
+                                                    {type:'div', attributes: {id:'activeArea', style:'margin-top:20px'}}
+
+                                                ]
+                                        }
+                                    ]
+                            }
+                        ]
+             }
+
+let pendingOptions = { 
+    fields: [ 
+        {name:'No.'                      }, 
+        {name:'Created On'                , viewAs:'date'},  
+        {name:'staus'                     , viewAs:'system', content: {innerHTML:'Pending'}, attributes: {style:'color:red'}} 
+
+    ]
+}
+
+
+let activeOptions  = { 
+    fields: [
+
+        {name:'No.'                      }, 
+        {name:'Created On'                , viewAs:'date'}, 
+        {name:'Bids'                     }, 
+        {name:'Heighest Bid'              , suffix:'$'},  
+        {viewAs: 'button', attributes: {type:'button', value :'History', class:'infoButton'     , header:{style:'width:75px'}}},
+        {viewAs: 'button', attributes: {type:'button', value :'Award',   class:'infoButton'     , header:{style:'width:75px'}}},
+        {viewAs: 'button', attributes: {type:'button', value :'Cancel',  class:'infoButton'     , header:{style:'width:75px'}, style:'background:var(--action); border-color:var(--action); '}} 
+    ]
+}
+
+
+
+onload = () => { 
+
+    let user = JSON.parse(sessionStorage.getItem('user'))
+ 
+    render(layout, document.body)
+    
+
+    GET({url:'lot/get?status=1&user=' + user.id, parameters: {}}).then( r => { 
+           pendingOptions.data = r.data; 
+           pendingLotsCount.innerText = 'Total of : ' + pendingOptions.data.length + ' Lots ';
+           render(tabularView(pendingOptions), pendingArea);  
+    });
+
+
+    GET({url:'lot/get?status=2&user=' + user.id, parameters: {}}).then( r => { 
+        activeOptions.data = r.data; 
+        activeLotsCount.innerText = 'Total of : ' + activeOptions.data.length + ' Lots '
+        render(tabularView(activeOptions), activeArea);  
+    });
+
+
+
+
+}
+
+
+
+</script>
+ 

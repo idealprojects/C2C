@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C2C - Exchange ( Sign In )</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/common.js"></script>
+    <script src="js/sentence.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/data.js"></script>
+    <style>
+         
+
+           input { background-color:#746EAE; color:#fff; box-sizing: border-box; width: 100%;  }
+            
+    </style>
+</head>
+<body>
+   
+
+</body>
+</html>
+
+
+<script>
+
+let layout = { type:'div', elements: 
+                        [   
+                            pageHeader(), 
+                            {type:'div', attributes:{style:'width:980px; margin:auto; display: grid; grid-template-columns: 200px 1fr; padding:20px; font-size:12px; min-height:600px'}, 
+                                elements: 
+                                    [
+                                        inlineMenu(menuItems), 
+                                        {type:'div', attributes: {id:'workArea', style:'padding:20px;'}, 
+                                            elements: 
+                                                [ 
+                                                    
+                                             
+                                                    newLot , 
+                                                    seperator(),
+                                                    caption('Latest Lots'), 
+                                                    {type:'div', attributes: {id:'lotsCount'},    content: {innerHTML:''}}, 
+                                                    {type:'div', attributes: {id:'latestLots', style:'margin-top:20px'}}
+                                                ]
+                                        }
+                                    ]
+                            }
+                        ]
+             }
+
+let options = { 
+    fields: [
+
+        {name:'No.'                      }, 
+        {name:'Created On'                , viewAs:'date'},
+        {name:'Original Value'            , suffix:'$'},
+        {name:'Discounted Value'          , suffix:'$'}, 
+        {name:'Bids'                     }, 
+        {name:'Heighest Bid'              , suffix:'$'}, 
+        {viewAs: 'button', data:'No.', attributes: {type:'button', value :'Details', class:'infoButton'     , header:{style:'width:75px'}}, events: {click: function(){  render(modal({src:'lotDetails.html?lot=' + this.getAttribute('data')}),document.body) }}},
+        {viewAs: 'button', data:'No.', attributes: {type:'button', value :'Bid Now', class:'approveButton'  , header:{style:'width:70px'}}, events: {click: function(){  render(modal({width:'350px;' , height:'200px', src:'bidNow.html?lot=' + this.getAttribute('data')}),document.body) }}},
+
+    ]
+}
+
+
+
+onload = () => { 
+
+ 
+    render(layout, document.body)
+    
+
+    GET({url:'lot/get?status=2', parameters: {}}).then( r => { 
+        options.data = r.data; 
+        lotsCount.innerText = 'Total of : ' + options.data.length + ' Lots '
+        render(tabularView(options), latestLots);  
+    });
+
+   
+
+}
+
+</script>
+ 

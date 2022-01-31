@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <g id="Group_2" data-name="Group 2" transform="translate(-169 -73)">
+    <rect id="Rectangle_5" data-name="Rectangle 5" width="100" height="100" rx="10" transform="translate(169 73)" fill="#49447d"/>
+    <g id="Group_1" data-name="Group 1">
+      <circle id="Ellipse_1" data-name="Ellipse 1" cx="25" cy="25" r="25" transform="translate(194 100)" fill="#fff"/>
+      <circle id="Ellipse_2" data-name="Ellipse 2" cx="15" cy="15" r="15" transform="translate(204 110)" fill="#49447d"/>
+      <rect id="Rectangle_6" data-name="Rectangle 6" width="37" height="71" transform="translate(219 91)" fill="#49447d"/>
+    </g>
+    <text id="_2" data-name="2" transform="translate(225 111)" fill="#f7f7fb" font-size="24" font-family="Montserrat-Bold, Montserrat" font-weight="700"><tspan x="0" y="0">2</tspan></text>
+  </g>
+</svg>

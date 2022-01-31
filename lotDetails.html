@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Lot Details </title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/common.js"></script>
+    <script src="js/sentence.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/data.js"></script>
+
+
+
+</head>
+<body style="padding:20px;">
+     
+</body>
+</html>
+<script>
+
+let options = { 
+    fields: [
+        {name:'item'     }, 
+        {name:'qty'      },
+       // {name:'price'    },
+       // {name:'lot'      } 
+    ]
+}
+
+GET({url:'lotDetails/get?id=' + QueryString("lot"), parameters: {}}).then( r => {
+    
+    //console.log(r);
+    options.data = r.data; 
+    render(tabularView(options), document.body); 
+
+})
+
+
+
+</script>

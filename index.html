@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C2C - Exchnage </title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/common.js"></script>
+    <script src="js/sentence.js"></script>
+    <script src="js/components.js"></script>
+
+</head>
+
+<body>
+</body>
+
+</html>
+<script>
+
+    let toolbar = {
+        type: 'div', attributes: { class: 'flex vCenter toolbar', style: '' },
+        elements: [
+            image({ src: 'images/logo.svg' }),
+            { type: 'div', attributes: { class: 'grow' } },
+            anchor({ href: '#', text: 'Support' }),
+            { type: 'div', attributes: { class: 'mlr5', style: '' } },
+            anchor({ href: '#', text: 'Contact' }),
+            { type: 'div', attributes: { class: 'mlr5', style: '' } },
+            anchor({ href: 'signin.html', text: 'Sign in' }),
+            { type: 'div', attributes: { class: 'mlr5', style: '' } }
+        ]
+    }
+
+
+    let ad = {
+        type: 'div', attributes: { class: 'add', style: '' },
+        elements: [
+            {
+                type: 'div', attributes: { class: 'merge-columns center', style: '' },
+                elements: [
+                    textInput({ attributes: { type: 'search', class: 'search', placeholder: 'Find by brand, category or part no.' } }),
+                ]
+            },
+            {
+                type: 'div', attributes: { class: 'p30', style: '' },
+                elements: [
+                    { type: 'h1', attributes: { class: 'fs30', style: '' }, content: { innerText: ' Opportunities & great business deals! ' } },
+                    { type: 'br' },
+                    {
+                        type: 'div', attributes: { style: 'font-size:12px;' },
+                        elements: [
+                            { type: 'div', attributes: { style: 'text-align: justify; font-size:12px; color:var(--white70);' }, content: { innerText: 'Helping world by utlizing available products with reduced price maintaining high standards. We are developing the concept of moving material from one party to another with minimum cost ' } }
+                        ]
+                    },
+                    {
+                        type: 'div', attributes: { class: 'ptb10 gridFillEqually', style: '' },
+                        elements: [
+                            {
+                                type: 'input', attributes: { class: 'action', type: 'button', value: '14 Days Trial', style: '' }, events: {
+                                    click: function () {
+                                        openPage('signup.html')
+                                    }
+                                }
+                            },
+                            {
+                                type: 'input', attributes: { class: 'approve', type: 'button', value: 'Sign In', style: '' }, events: {
+                                    click: function () {
+                                        openPage('signin.html')
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                type: 'div', attributes: { class: 'c' },
+                elements: [
+                    image({ src: 'images/icAdCover.svg', style: 'width:300px; height:300px;' }),
+                ]
+            }
+        ]
+    }
+
+    let header = {
+        type: 'div', attributes: { class: 'header', style: '' },
+        elements: [toolbar, ad]
+    }
+
+    let caption = {
+        type: 'div', attributes: { class: 'caption', style: '' },
+        elements: [
+            text({ type: 'h2', text: 'Latests Bids' }),
+        ]
+    }
+
+    let cardHeader = {
+        type: 'div', attributes: { class: 'flex vCenter p20', style: 'color: #666;' }, content: { innerText: ' Original Value ' },
+        elements: [
+            text({ type: 'h2', text: '45,000 $', attributes: { class: 'mlr5' } }),
+        ]
+    }
+    let cardItem = (value) => {
+        return {
+            type: 'div', attributes: { class: 'p4 flex vCenter' },
+            elements: [
+                image({ src: 'images/arrow.svg', class: 'mlr5' }),
+                text({ type: 'div', text: value, attributes: { class: 'mlr5' } })
+            ]
+        }
+    }
+    let cardFooter = {
+        type: 'div', attributes: { class: 'flex vCenter', style: 'justify-content: center; align-items: flex-end; flex-gap:0px;' },
+        elements: [
+            text({ type: 'div', text: '30%', attributes: { class: 'mlr5 fs40 f700' } }),
+            text({ type: 'div', text: 'discount', attributes: { class: 'mlr5 fs20  f500' } }),
+        ]
+    }
+
+    let card = {
+        type: 'div', attributes: { class: 'card p10', style: '' },
+        elements: [
+            cardHeader,
+            cardItem('Electrical Components'),
+            cardItem('56 items'),
+            cardItem('Verified'),
+            cardItem('Partial accepted'),
+            cardFooter,
+            {
+                type: 'input', attributes: { class: 'button', type: 'button', value: 'View', style: 'width: 100%;' }, events: {
+                    click: function () {
+                        render(modal({ width: '350px;', height: '200px', src: 'bidNow.html' }), document.body)
+                    }
+                }
+            }
+        ]
+    }
+
+    let cards = {
+        type: 'div', attributes: { class: 'p20 cards', style: '' },
+        elements: [
+            card,
+            card,
+            card
+        ]
+    }
+
+    let block = (image_, title, details) => {
+        return {
+            type: 'div', attributes: { class: 'block p10', style: '' },
+            elements: [
+                image({ src: image_, class: 'mlr5' }),
+                text({ type: 'h3', text: title, attributes: { class: 'p10' } }),
+                text({ type: 'div', text: details, attributes: { class: 'p10' } })
+            ]
+        }
+    }
+
+    let notes = {
+        type: 'div', attributes: { class: 'blocks p20', style: '' },
+        elements: [
+            block('images/p1.svg', 'Listings with spec\'s', 'Our solution provide technically specified items only. Items listed by manufacturer part No. with original specifications.'),
+            block('images/p2.svg', 'Officially guaranteed', 'Our operation is fully documented with certified official documents.'),
+            block('images/p3.svg', 'Managed deals', 'Our team will manage the deal from A to Z. with official correspondence support.')
+        ]
+    }
+
+    let footerContact = {
+        type: 'div', attributes: { class: 'footer flex vCenter', style: '' },
+        elements: [
+            image({ src: 'images/ad.jpg', style: 'width:142px;', class: '' }),
+            {
+                type: 'div', attributes: { class: 'p20', style: '' },
+                elements: [
+                    text({ type: 'h3', text: 'Need to know more ?', attributes: { class: '' } }),
+                    text({ type: 'div', text: 'Have more questions in mind! Get in touch. Our team will be supportive.' })
+                ]
+            },
+            { type: 'div', attributes: { class: 'grow'}},
+            {
+                type: 'div', attributes: { class: 'p20', style: '' },
+                elements: [
+                    {
+                        type: 'input', attributes: { class: 'action', type: 'button', value: 'Contact us', style: 'width: 100%;' }, events: {
+                            click: function () {
+                                render(modal({ width: '350px;', height: '200px', src: 'bidNow.html' }), document.body)
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+
+    let bottomlayout = { type: 'div', attributes: { class: 'block' ,style:'min-width:50%;'}, elements: [caption, cards, gab, notes, footerContact] }
+
+    let layout = { type: 'div', attributes: { class: 'container' }, elements: [header, bottomlayout, footer()] }
+
+    onload = async () => {
+
+        await render(layout, document.body).then(r => {
+            console.log()
+        })
+
+
+    }
+</script>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C2C - Exchange ( Sign In )</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/common.js"></script>
+    <script src="js/sentence.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/data.js"></script>
+    <style>
+        a {
+            color: var(--white)
+        }
+
+        a:hover {
+            color: var(--action);
+        }
+
+        a:visited {
+            color: var(--white);
+        }
+
+        a:active {
+            color: var(--white);
+        }
+
+        input {
+            background-color: #746EAE;
+            color: #fff;
+            box-sizing: border-box;
+            border: none;
+            width: 100%;
+        }
+
+        ::placeholder {
+            color: var(--white)
+        }
+    </style>
+</head>
+
+<body>
+<!--     
+
+    <div    style="display: grid; grid-template-rows: 1fr 120px; height:100vh;">
+ 
+ 
+        <div style="background: var(--darkPurple); display: flex; justify-content: center; align-items: center;"> 
+            
+            <div style="width:240px; color: var(--white); ">
+                <div id="serverMessage" style="font-size:12px; color:orange; height:40px "> </div>
+                <h3 class="p10">Sign In</h3>
+                <input type="text"         id="email"    placeholder="email"                     oninput="resetMessage()">
+                <input type="password"     id="password" placeholder="password"                  oninput="resetMessage()">
+                <input type="button" value="Sign in" class="positive"                            onclick="signIn()" >
+                <div class="p20" style="font-size: 11px;"> 
+                   No account?  <a href="signup.html"> 14 days trial </a>
+                </div>
+ 
+            </div>
+
+        </div>
+
+        <div class="p20 flex vCenter" style="font-size:12px"> 
+ 
+            <img src="images/logo.svg" class="logo mlr5"> Copy&copy;2021, rights reserved.  
+            <div class="grow"></div>
+            <div class="mlr5">Support</div>
+            <div class="mlr5">Contact</div>
+            
+
+        </div>
+    </div> -->
+
+</body>
+</html>
+
+
+<script>
+    let layout = {
+        type: 'div', attributes: { style: 'display: grid; grid-template-rows: 1fr 80px; height:100vh;' },
+        elements: [
+            {
+                type: 'div', attributes: { style: 'background: var(--gradientPurple); display: flex; justify-content: center; align-items: center;' },
+                elements: [{
+                    type: 'div', attributes: { style: 'width: 360px; color: var(--white); display: grid; grid-template-columns: 1fr 32px; grid-row-gap: 10px;' },
+                    elements: [
+
+                        { type: 'h3', attributes: { class: "p10", style: 'display: flex; justify-content: center; align-content: center; font-weight: 500; font-size: 42px;' }, content: { innerText: 'Sign In' } },
+                        { type: 'div' },
+
+                        textInputWithImage({src:'images/icUsername.svg', attributes: { id: 'email', type: 'email', placeholder: 'Email' }}),
+                        { type: 'div' },
+
+                        textInputWithImage({src:'images/icPassword.svg', attributes: { id: 'password', type: 'password', placeholder: 'Password' }}),
+                        { type: 'div' },
+
+                        { type: 'div', attributes: { id: 'serverMessage', style: 'width: 360px; color: var(--white); display: grid; grid-template-columns: 1fr 32px;' } },
+                        { type: 'div' },
+
+                        {
+                            type: 'div', elements: [
+                                {
+                                    type: 'input', attributes: { class: 'positive', type: 'button' , value: 'Sign in' }, events: {
+                                        click: function () {
+                                            signIn()
+                                        }
+                                    }
+                                },
+                                { type: 'div' },
+                                {
+                                    type: 'div', attributes: { style: 'font-size: 11px; margin-top: 5px;' }, content: { innerText: 'No account? ' },
+                                    elements: [
+                                        { type: 'a', attributes: { href: 'signup.html' }, content: { innerText: '14 days trial' } }
+                                    ]
+                                }
+                            ]
+                        },
+
+                    ]
+                }
+                ]
+            },
+            footer()
+        ]
+    }
+
+
+    onload = async () => {
+
+        await render(layout, document.body).then(r => {
+            console.log()
+        })
+
+
+    }
+  
+
+    resetMessage = () => { 
+        serverMessage.innerHTML = ''; 
+    }
+
+    signIn = () => { 
+
+
+    if (email.value !== '' && password.value !== '') {
+
+            POST({ url: 'user/verify', parameters: { email: email.value, password: password.value } })
+                .then(r => {
+                    if (r.token !== null) {
+                        sessionStorage.setItem('user', JSON.stringify(r))
+                        window.location.href = './latestlots.html'
+                    }
+                    else {
+                        serverMessage.innerHTML = 'Invalid login! Try again'
+                    }
+                });
+
+        } else {
+            serverMessage.innerHTML = 'Please fill account information!'
+        }
+    }
+
+</script>

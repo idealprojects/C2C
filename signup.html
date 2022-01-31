@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C2C - Exchange ( Sign In )</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/common.js"></script>
+    <script src="js/sentence.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/data.js"></script>
+    <style>
+        a {
+            color: var(--white)
+        }
+        
+        a:hover {
+            color: var(--action);
+        }
+        
+        a:visited {
+            color: var(--white);
+        }
+        
+        a:active {
+            color: var(--white);
+        }
+        
+        input {
+            background-color: #746EAE;
+            color: #fff;
+            box-sizing: border-box;
+            border: none;
+            width: 100%;
+        }
+        
+         ::placeholder {
+            color: var(--white)
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- <div style="display: grid; grid-template-rows: 1fr 120px; height:100vh;">
+        <div style="background: var(--darkPurple); display: flex; justify-content: center; align-items: center;">
+
+            <div style="width: 360px; color: var(--white); display: grid; grid-template-columns: 1fr 32px; ">
+                <div id="serverMessage" style="font-size:12px; color:orange; height:40px "></div>
+                <div></div>
+                <h3 class="p10" style="display: flex; justify-content: center; align-content: center; font-weight: 500; font-size: 42px;">Sign Up</h3>
+                <div></div>
+                <input type="text" id="userName " placeholder="Name ">
+                <div></div>
+                <input type="text" id="company " placeholder="Company ">
+                <div></div>
+                <input type="text" id="email " placeholder="email ">
+                <div></div>
+                <input type="password" id="password " placeholder="Password ">
+                <div></div>
+                <input type="password" id="passwordConfirmation " placeholder="Confirm ">
+                <div id="confirmIcon" class="m5 flex center ">
+                </div>
+                <input type="button" value="Sign Up" class="positive " onclick="signUp() ">
+                <div>
+
+                </div>
+                <div class="p20 " style="font-size: 11px; "> Already memebr? <a href="signin.html "> sign in </a>
+                </div>
+
+            </div>
+
+        </div>
+    </div> -->
+
+</body>
+
+</html>
+<script>
+    let layout = {
+        type: 'div', attributes: { style: 'display: grid; grid-template-rows: 1fr 80px; height:100vh;' },
+        elements: [
+            {
+                type: 'div', attributes: { style: 'background: var(--gradientPurple); display: flex; justify-content: center; align-items: center; grid-row-gap: 10px' },
+                elements: [{
+                    type: 'div', attributes: { style: 'width: 360px; color: var(--white); display: grid; grid-template-columns: 1fr 32px; grid-row-gap: 10px;' },
+                    elements: [
+                        { type: 'div', attributes: { style: 'font-size:12px; color:orange; height:40px;' } },
+                        { type: 'div' },
+
+                        { type: 'h3', attributes: { class: "p10", style: 'display: flex; justify-content: center; align-content: center; font-weight: 500; font-size: 42px;' }, content: { innerText: 'Sign Up' } },
+                        { type: 'div' },
+
+                        textInput({attributes: { id: 'userName', placeholder: 'Name', isRequired: true }}),
+                        { type: 'div' },
+
+                        textInput({attributes: { id: 'company', placeholder: 'Company' }}),
+                        { type: 'div' },
+
+                        textInput({attributes: { id: 'email', placeholder: 'Email' }}),
+                        { type: 'div' },
+
+                        
+                        textInput({attributes: { id: 'password', type: 'password', placeholder: 'Password'  }}),
+                        { type: 'div' },
+
+                        textInput({attributes: { id: 'passwordConfirmation', type: 'password', placeholder: 'Confirm password'  }}),
+                        { type: 'div', attributes: { id: 'confirmIcon', style: 'm5 flex center' } },
+
+                        { type: 'div', attributes: { id: 'serverMessage', style: 'width: 360px; color: var(--white); display: grid; grid-template-columns: 1fr 32px;' } },
+                        { type: 'div' },
+
+                        {
+                            type: 'div', elements: [
+                                {
+                                    type: 'input', attributes: { class: 'positive', type: 'button', value: 'Sign Up' }, events: {
+                                        click: function () {
+                                            signUp()
+                                        }
+                                    }
+                                },
+                                { type: 'div' },
+
+                                {
+                                    type: 'div', attributes: { class: "", style: 'font-size: 11px;' }, content: { innerText: '> Already memebr? ' },
+                                    elements: [
+                                        { type: 'a', attributes: { href: 'signin.html' }, content: { innerText: 'sign in' } }
+                                    ]
+                                }
+                            ]
+                        },
+
+                    ]
+                }
+                ]
+            },
+            footer()
+        ]
+    }
+
+
+    onload = async () => {
+
+        await render(layout, document.body).then(r => {
+            console.log()
+        })
+
+
+    }
+  
+
+
+    var formVerified = true;
+    checkForm = () => {
+        formVerified = true;
+        if (userName.value.length == 0) {
+            formVerified=  false
+        }
+        if (!checkEmail()) {
+            formVerified = false;
+        }
+        if (!matchPasswords()) {
+            formVerified = false;
+        }
+        return formVerified
+    }
+    
+    signUp = () => {
+        if (checkForm()) {
+            PUT({
+                    url: 'user/put',
+                    parameters: {
+                        name: userName.value,
+                        company: company.value,
+                        email: email.value,
+                        password: password.value
+                    }
+                })
+                .then(r => {
+                    if (r[0].id == -1) {
+                        serverMessage.innerText = 'E-Mail already exists! click here to recover password!'
+                    } else {
+                        serverMessage.innerText = 'account created! You will be redirected to profile';
+                        sessionStorage.setItem('user', JSON.stringify(r[0]));
+                        window.location.href = '/profile.html'
+                    }
+
+                })
+        } else {
+            !checkEmail() ? serverMessage.innerText = 'Invalid email!' : false;
+            !matchPasswords() ? serverMessage.innerText = 'Passwords are not matching!' : false;
+            console.log(userName.isRequired)
+        }
+
+
+    }
+
+    checkEmail = () => {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email.value);
+    }
+
+    matchPasswords = () => {
+
+        if (passwordConfirmation.value !== '') {
+            if (password.value == passwordConfirmation.value) {
+                confirmIcon.innerHTML = " ✔ ";
+                return true;
+            } else {
+                confirmIcon.innerHTML = " ✕ ";
+                formVerified = false;
+                return false;
+            }
+        }
+
+    }
+</script>
