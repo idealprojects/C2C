@@ -159,7 +159,7 @@
 
         let layout = { type: 'div', elements: [boxes, circles] }
 
-        await render(layout, document.body).then(r => {
+        await renderAsync(layout, document.body).then(r => {
             console.log(boxes.elements.length)
         })
 

@@ -25,13 +25,14 @@ let layout = {
     type:'div', attributes: {style:'padding:20px; display:grid'}, 
     elements: 
     [
-        {type:'div',   attributes:{style:'margin:5px'},  content: {innerText:'By awarding this lot to Ideal ( IPC ) you will confirm acceptance of amount of the bid.'}}, 
-        {type:'input', attributes:{type:'button', style:'padding:5px !important; margin:5px; height:30px; background:var(--approve); color:#fff', value:'Award'}}
+        {type:'div',   attributes:{style:'margin:5px'},  content: {innerText:'Bid now! Enter amount hight than 100$'}},
+        {type:'input', attributes:{type:'number', style:'padding:5px !important; margin:5px', placeholder:'Bid Amount'}},
+        {type:'input', attributes:{type:'button', style:'padding:5px !important; margin:5px; height:30px; background:var(--approve); color:#fff', value:'Bid Now'}}
     ]
 }
 
 onload = () => { 
-    render(layout, document.body)
+    renderAsync(layout, document.body)
 }
 
 </script>

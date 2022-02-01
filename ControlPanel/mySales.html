@@ -86,20 +86,20 @@ onload = () => {
 
     let user = JSON.parse(sessionStorage.getItem('user'))
  
-    render(layout, document.body)
+    renderAsync(layout, document.body)
     
 
     GET({url:'lot/get?status=1&user=' + user.id, parameters: {}}).then( r => { 
            pendingOptions.data = r.data; 
            pendingLotsCount.innerText = 'Total of : ' + pendingOptions.data.length + ' Lots ';
-           render(tabularView(pendingOptions), pendingArea);  
+           renderAsync(tabularView(pendingOptions), pendingArea);  
     });
 
 
     GET({url:'lot/get?status=2&user=' + user.id, parameters: {}}).then( r => { 
         activeOptions.data = r.data; 
         activeLotsCount.innerText = 'Total of : ' + activeOptions.data.length + ' Lots '
-        render(tabularView(activeOptions), activeArea);  
+        renderAsync(tabularView(activeOptions), activeArea);  
     });
 
 

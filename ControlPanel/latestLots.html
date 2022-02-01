@@ -59,8 +59,8 @@ let options = {
         {name:'Discounted Value'          , suffix:'$'}, 
         {name:'Bids'                     }, 
         {name:'Heighest Bid'              , suffix:'$'}, 
-        {viewAs: 'button', data:'No.', attributes: {type:'button', value :'Details', class:'infoButton'     , header:{style:'width:75px'}}, events: {click: function(){  render(modal({src:'lotDetails.html?lot=' + this.getAttribute('data')}),document.body) }}},
-        {viewAs: 'button', data:'No.', attributes: {type:'button', value :'Bid Now', class:'approveButton'  , header:{style:'width:70px'}}, events: {click: function(){  render(modal({width:'350px;' , height:'200px', src:'bidNow.html?lot=' + this.getAttribute('data')}),document.body) }}},
+        {viewAs: 'button', data:'No.', attributes: {type:'button', value :'Details', class:'infoButton'     , header:{style:'width:75px'}}, events: {click: function(){  renderAsync(modal({src:'lotDetails.html?lot=' + this.getAttribute('data')}),document.body) }}},
+        {viewAs: 'button', data:'No.', attributes: {type:'button', value :'Bid Now', class:'approveButton'  , header:{style:'width:70px'}}, events: {click: function(){  renderAsync(modal({width:'350px;' , height:'200px', src:'bidNow.html?lot=' + this.getAttribute('data')}),document.body) }}},
 
     ]
 }
@@ -70,13 +70,13 @@ let options = {
 onload = () => { 
 
  
-    render(layout, document.body)
+    renderAsync(layout, document.body)
     
 
     GET({url:'lot/get?status=2', parameters: {}}).then( r => { 
         options.data = r.data; 
         lotsCount.innerText = 'Total of : ' + options.data.length + ' Lots '
-        render(tabularView(options), latestLots);  
+        renderAsync(tabularView(options), latestLots);  
     });
 
    

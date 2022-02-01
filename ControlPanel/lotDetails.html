@@ -33,7 +33,7 @@ GET({url:'lotDetails/get?id=' + QueryString("lot"), parameters: {}}).then( r => 
     
     //console.log(r);
     options.data = r.data; 
-    render(tabularView(options), document.body); 
+    renderAsync(tabularView(options), document.body); 
 
 })
 

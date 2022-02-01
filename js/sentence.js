@@ -39,14 +39,26 @@ $ = function(selector)
 
 }
   
-// renders the element given parent node ( as container ) with recursive capabilities 
-async function  render(node, parent) {
+// renderAsyncs the element given parent node ( as container ) with recursive capabilities 
+async function  renderAsync(node, parent) {
 
     var el = $().create(node.type, node.attributes, node.events, node.content, node.extend, node._options).element;
     parent.append(el); 
     
     if(node.elements)
-    {   node.elements.forEach(async child => {     await render(child, el);   });    }
+    {   node.elements.forEach(async child => {     await renderAsync(child, el);   });    }
+ 
+   
+   return el
+} 
+
+ function  render(node, parent) {
+
+    var el = $().create(node.type, node.attributes, node.events, node.content, node.extend, node._options).element;
+    parent.append(el); 
+    
+    if(node.elements)
+    {   node.elements.forEach( child => {    render(child, el);   });    }
  
    
    return el

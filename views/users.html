@@ -59,10 +59,10 @@ page:1
  
  
 window.onload = async () => { 
-render(loader(), document.body);
+renderAsync(loader(), document.body);
 await GET({url:options.get.endPoint,parameters :{}}).then( response => {
 options.data = response.data;
-render(gridView(options), document.body);
+renderAsync(gridView(options), document.body);
 loaderUI.remove();
 }); 
 }

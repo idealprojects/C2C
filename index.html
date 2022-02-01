@@ -41,7 +41,14 @@
             {
                 type: 'div', attributes: { class: 'merge-columns center', style: '' },
                 elements: [
-                    textInput({ attributes: { type: 'search', class: 'search', placeholder: 'Find by brand, category or part no.' } }),
+                    {
+                        type: 'div', attributes: { class: 'autocomplete', style: 'width: 100%;' },
+                        elements: [
+                            textInput({ attributes: { type: 'search', id:'search', style:'border-radius: 10px;', class: 'search', placeholder: 'Find by brand, category or part no.' } }),
+                            {type: 'div', attributes: { id: 'resultContiner', style: 'width: 100%; max-height: 300px; overflow: hidden; overflow-y: scroll;' }},
+                        ]
+                    }
+                    // textInput({ attributes: { type: 'search', class: 'search', placeholder: 'Find by brand, category or part no.' } }),
                 ]
             },
             {
@@ -132,7 +139,7 @@
             {
                 type: 'input', attributes: { class: 'button', type: 'button', value: 'View', style: 'width: 100%;' }, events: {
                     click: function () {
-                        render(modal({ width: '350px;', height: '200px', src: 'bidNow.html' }), document.body)
+                        renderAsync(modal({ width: '350px;', height: '200px', src: 'bidNow.html' }), document.body)
                     }
                 }
             }
@@ -179,14 +186,14 @@
                     text({ type: 'div', text: 'Have more questions in mind! Get in touch. Our team will be supportive.' })
                 ]
             },
-            { type: 'div', attributes: { class: 'grow'}},
+            { type: 'div', attributes: { class: 'grow' } },
             {
                 type: 'div', attributes: { class: 'p20', style: '' },
                 elements: [
                     {
                         type: 'input', attributes: { class: 'action', type: 'button', value: 'Contact us', style: 'width: 100%;' }, events: {
                             click: function () {
-                                render(modal({ width: '350px;', height: '200px', src: 'bidNow.html' }), document.body)
+                                renderAsync(modal({ width: '350px;', height: '200px', src: 'bidNow.html' }), document.body)
                             }
                         }
                     }
@@ -195,16 +202,18 @@
         ]
     }
 
-    let bottomlayout = { type: 'div', attributes: { class: 'block' ,style:'min-width:50%;'}, elements: [caption, cards, gab, notes, footerContact] }
+    let bottomlayout = { type: 'div', attributes: { class: 'block', style: 'min-width:50%;' }, elements: [caption, cards, gap, notes, footerContact] }
 
     let layout = { type: 'div', attributes: { class: 'container' }, elements: [header, bottomlayout, footer()] }
 
     onload = async () => {
 
-        await render(layout, document.body).then(r => {
-            console.log()
+    await renderAsync(layout, document.body).then(r => {
+        console.log(r)
         })
 
+        autocomplete(document.getElementById("search"), countries);
 
     }
+    
 </script>
