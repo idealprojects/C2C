@@ -140,6 +140,16 @@ div {
   font-size: 10px;
 }
 
+.plr20 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.ptb20 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .plr10 {
   padding-left: 10px;
   padding-right: 10px;
@@ -372,9 +382,9 @@ input[type="button"]:hover {
 }
 
 @media screen and (max-width: 800px) {
-  input[type="button"] {
-    width: 95px !important;
-  }
+  /* input[type="button"] {
+    width: 95px !important; */
+  /* } */
   .container {
     width: 100%;
     padding: 0;
