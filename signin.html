@@ -43,46 +43,16 @@
 </head>
 
 <body>
-<!--     
-
-    <div    style="display: grid; grid-template-rows: 1fr 120px; height:100vh;">
- 
- 
-        <div style="background: var(--darkPurple); display: flex; justify-content: center; align-items: center;"> 
-            
-            <div style="width:240px; color: var(--white); ">
-                <div id="serverMessage" style="font-size:12px; color:orange; height:40px "> </div>
-                <h3 class="p10">Sign In</h3>
-                <input type="text"         id="email"    placeholder="email"                     oninput="resetMessage()">
-                <input type="password"     id="password" placeholder="password"                  oninput="resetMessage()">
-                <input type="button" value="Sign in" class="positive"                            onclick="signIn()" >
-                <div class="p20" style="font-size: 11px;"> 
-                   No account?  <a href="signup.html"> 14 days trial </a>
-                </div>
- 
-            </div>
-
-        </div>
-
-        <div class="p20 flex vCenter" style="font-size:12px"> 
- 
-            <img src="images/logo.svg" class="logo mlr5"> Copy&copy;2021, rights reserved.  
-            <div class="grow"></div>
-            <div class="mlr5">Support</div>
-            <div class="mlr5">Contact</div>
-            
-
-        </div>
-    </div> -->
-
+    
 </body>
 </html>
 
 
 <script>
     let layout = {
-        type: 'div', attributes: { style: 'display: grid; grid-template-rows: 1fr 80px; height:100vh;' },
+        type: 'div', attributes: { style: 'display: grid; grid-template-rows: 60px auto 60px; height: 100%;' },
         elements: [
+        toolbar,
             {
                 type: 'div', attributes: { style: 'background: var(--gradientPurple); display: flex; justify-content: center; align-items: center;' },
                 elements: [{
@@ -130,12 +100,9 @@
 
 
     onload = async () => {
-
         await renderAsync(layout, document.body).then(r => {
             console.log()
         })
-
-
     }
   
 

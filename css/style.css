@@ -46,6 +46,12 @@
   --gap: 5px;
 }
 
+html, body {
+  height: 100%;
+}
+.black {
+  color: var(--gray5);
+}
 div {
   border: 0px dashed #ccc;
 }
@@ -216,7 +222,7 @@ div {
 
 .container {
   width: 100vw;
-  height: 100vh;
+  height: 100% !important;
   margin: 0px;
   padding: 0px;
 }
@@ -488,6 +494,7 @@ input[type="button"]:hover {
   background: #258e00;
   color: var(--white);
   border: 0px;
+  border-radius: 5;
 }
 
 .placeOrderButton {
@@ -521,17 +528,21 @@ input[type="button"]:hover {
 }
 
 .autocomplete-items {
-  position: absolute;
-  /* border: 1px solid #d4d4d4; */
-  /* border-bottom: none;
-  border-top: none; */
-  border-radius: 10px;
+  /* 
+  overflow: hidden;
+  float:left;
   z-index: 99;
   margin-top: 4px;
-  /*position the autocomplete items to be the same width as the container:*/
-  top: 100%;
-  left: 0;
-  right: 0;
+  position: absolute;
+  left: inherit; */
+
+  /* left:0;
+  right:0; */
+  border-radius: 5px;
+  /* width: 100%; */
+  width: 46.3%;
+  position:absolute;
+  border: 1px solid black;
   max-height: 300px;
   overflow: scroll;
   overflow-y: scroll;

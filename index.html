@@ -20,35 +20,134 @@
 </html>
 <script>
 
-    let toolbar = {
-        type: 'div', attributes: { class: 'flex vCenter p10', style: '' },
-        elements: [
-            image({ src: 'images/logo.svg' }),
-            { type: 'div', attributes: { class: 'grow' } },
-            anchor({ href: '#', text: 'Support' }),
-            { type: 'div', attributes: { class: 'mlr5' } },
-            anchor({ href: '#', text: 'Contact' }),
-            { type: 'div', attributes: { class: 'mlr5' } },
-            anchor({ href: 'signin.html', text: 'Sign in' }),
-            { type: 'div', attributes: { class: 'mlr5' } }
-        ]
+    // let toolbar = {
+    //     type: 'div', attributes: { class: 'flex vCenter p10', style: '' },
+    //     elements: [
+    //         image({ src: 'images/logo.svg' }),
+    //         { type: 'div', attributes: { class: 'grow' } },
+    //         anchor({ href: '#', text: 'Support' }),
+    //         { type: 'div', attributes: { class: 'mlr5' } },
+    //         anchor({ href: '#', text: 'Contact' }),
+    //         { type: 'div', attributes: { class: 'mlr5' } },
+    //         anchor({ href: 'signin.html', text: 'Sign in' }),
+    //         { type: 'div', attributes: { class: 'mlr5' } }
+    //     ]
+    // }
+
+
+    let data = [
+        { id: 1, brand: 'ABB', name: 'Apple Airpods', part: 'part1', description: 'Description1', price: 'price1', discount: 'discount1', qty: 'qty1', deal: 'Deal1' },
+        { id: 2, brand: 'ABB', name: 'Samsung Note Ultra', part: 'part2', description: 'Description2', price: 'price2', discount: 'discount2', qty: 'qty2', deal: 'Deal2' },
+        { id: 3, brand: 'ABB', name: 'Car', part: 'part3', description: 'Description3', price: 'price3', discount: 'discount3', qty: 'qty3', deal: 'Deal1' },
+        { id: 4, brand: 'ABB', name: 'Circuit Breaker', part: 'part4', description: 'Description4', price: 'price4', discount: 'discount4', qty: 'qty4', deal: 'Deal2' }]
+
+    let searchBar = {
+        index: 0,
+        type: 'div', attributes: { style: 'autoComplete', id: 'autoComplete' },
+        elements:
+            [
+                {
+                    type: 'input', attributes: { id: 'term', type: 'text', style: 'padding:5px; width:100%; box-sizing:border-box', placeholder: 'Find by name, part no, category or brand' }
+                    ,
+                    events: {
+                        input: async () => {
+
+                            let entries = { type: 'div', attributes: { class: 'autocomplete-items p10', style:'background-color: rgb(255, 255, 255);' }, elements: [] }
+
+
+                            data.forEach(item => {
+                                console.log(item.name.indexOf(term.value))
+                                if (
+                                    item.name.toLowerCase().indexOf(term.value.toLowerCase()) !== -1
+                                    ||
+                                    item.brand.toLowerCase().indexOf(term.value.toLowerCase()) !== -1
+                                ) {
+                                    entries.elements.push(autoCompleteItem(item.name, item.description, item.qty))
+
+                                    // entries.elements.push({
+                                    //     type: 'div', elements:
+                                    //         [
+                                    //             { type: 'div', attributes: { style: 'font-weight:500' }, content: { innerHTML: item.name } },
+                                    //             { type: 'div', attributes: { style: 'font-size:11px' }, content: { innerHTML: 'Brand: ' + item.brand } }
+                                    //         ]
+                                    // })
+                                }
+                            })
+                            index = 0;
+                            resultsContainer.innerHTML = '';
+                            renderAsync(entries, resultsContainer);
+
+                        },
+                        keyup: (e) => {
+
+                            for (i = 0; i <= resultsContainer.children[0].children.length - 1; i++) {
+                                resultsContainer.children[0].children[i].style.background = '#fff'
+                            }
+
+                            index > resultsContainer.children[0].children.length - 1 ? index = 0 : false;
+                            index < 0 ? index = resultsContainer.children[0].children.length - 1 : false;
+
+                            switch (e.keyCode) {
+                                case 8: // back space
+
+                                    resultsContainer.innerHTML = '';
+                                    break;
+
+                                case 13:
+                                    alert('Quize! Find the selected item')
+                                    break;
+
+                                case 40:
+                                    resultsContainer.children[0].children[index].style.background = '#ccc';
+                                    index++;
+                                    break;
+
+                                case 38:
+                                    resultsContainer.children[0].children[index].style.background = '#ccc';
+                                    index--;
+                                    break;
+
+                                default:
+                                    console.log(e.keyCode)
+                                    break;
+                            }
+                        }
+                    }
+                },
+                {
+                    type: 'div', attributes: { id: 'resultsContainer', class:'' },
+                    elements: []
+                }
+            ]
     }
-
-
     let ad = {
         type: 'div', attributes: { class: 'add', style: '' },
         elements: [
             {
                 type: 'div', attributes: { class: 'merge-columns center', style: '' },
                 elements: [
-                    {
-                        type: 'div', attributes: { class: 'autocomplete', style: 'width: 100%;' },
-                        elements: [
-                            textInput({ attributes: { type: 'search', id:'search', style:'border-radius: 10px;', class: 'search', placeholder: 'Find by brand, category or part no.' } }),
-                            {type: 'div', attributes: { id: 'resultContiner', style: 'width: 100%; max-height: 300px; overflow: hidden; overflow-y: scroll;' }},
-                        ]
-                    }
+                    // {
+                    //     type: 'div', attributes: { class: 'autocomplete', style: 'width: 100%;' },
+                    //     elements: [
+                    //         textInput({ attributes: { type: 'search', id:'search', style:'border-radius: 10px;', class: 'search', placeholder: 'Find by brand, category or part no.' } }),
+                    //         {type: 'div', attributes: { id: 'resultContiner', style: 'width: 100%; max-height: 300px; overflow: hidden; overflow-y: scroll;' }},
+                    //     ]
+                    // }
                     // textInput({ attributes: { type: 'search', class: 'search', placeholder: 'Find by brand, category or part no.' } }),
+                    searchBar,
+                    // autoComplete(
+                    //     {
+                    //         container: { class: '' }, data: data, valueField: 'id', displayField: 'name',
+                    //         input: {
+                    //             id: 'searchBox', class: 'search', placeholder: "Find by brand, category or part no.",
+                    //             events: {
+                    //                 change: function () {
+
+                    //                 }
+                    //             }
+
+                    //         }
+                    //     })
                 ]
             },
             {
@@ -193,7 +292,8 @@
                     {
                         type: 'input', attributes: { class: 'action', type: 'button', value: 'Contact us', style: 'width: 100%;' }, events: {
                             click: function () {
-                                renderAsync(modal({ width: '350px;', height: '200px', src: 'bidNow.html' }), document.body)
+                                // renderAsync(modal({ width: '350px;', height: '200px', src: 'bidNow.html' }), document.body)
+                                openPage('dealDetails.html')
                             }
                         }
                     }
@@ -208,12 +308,12 @@
 
     onload = async () => {
 
-    await renderAsync(layout, document.body).then(r => {
-        console.log(r)
+        await renderAsync(layout, document.body).then(r => {
+            console.log(r)
         })
 
-        autocomplete(document.getElementById("search"), countries);
+        // autocomplete(document.getElementById("search"), countries);
 
     }
-    
+
 </script>

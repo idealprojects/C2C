@@ -73,14 +73,21 @@ pageHeader = (options) => {
 
 image = (options) => {
   return {
-    type: "img",
-    attributes: {
-      src: options.src,
-      class: typeof options.class != "undefined" ? options.class : "logo",
-      style: options.style,
-    },
+    type: "a",
+    attributes: { href: options.href },
+    elements: [
+      {
+        type: "img",
+        attributes: {
+          src: options.src,
+          class: typeof options.class != "undefined" ? options.class : "logo",
+          style: options.style,
+        }
+      },
+    ],
   };
 };
+
 anchor = (options) => {
   return {
     type: "a",
@@ -148,8 +155,9 @@ modal = (options) => {
 // }
 
 textInput = (options) => {
+  console.log(options);
   return {
-    type: "text",
+    type: options.type || "text",
     attributes: {
       style: "height:40px; font-size:18px; font-weight:600;",
       placeholder: options.placeholder,
@@ -165,7 +173,12 @@ tabularView = (options) => {
     elements: [
       {
         type: "thead",
-        attributes: { style: typeof options.styles.header.style != 'undefined' ? options.styles.header.style : styles.thead },
+        attributes: {
+          style:
+            typeof options.styles.header.style != "undefined"
+              ? options.styles.header.style
+              : styles.thead,
+        },
         elements: (() => {
           let entries = [];
           options.fields.forEach((field) => {
@@ -326,18 +339,21 @@ textInputWithImage = (options) => {
 
 textInput = (options) => {
   return {
-    type: "div",
-    attributes: { class: "textBox", style: "display:grid" },
+    type: options.type || "div",
+    attributes: options.attributes || {
+      class: "textBox",
+      style: "display:grid",
+    },
     elements: [
       {
         type: "input",
         attributes: options.attributes,
         events: mergeObjects(options.events, {
           focusout: function () {
-            if (!this.value) {
-              this.getAttribute("isRequired");
-            }
-            console.log(this.getAttribute("isRequired"));
+            // if (!this.value) {
+            //   this.getAttribute("isRequired");
+            // }
+            // console.log(this.getAttribute("isRequired"));
           },
         }),
       },
@@ -346,27 +362,27 @@ textInput = (options) => {
   };
 };
 
-textInput = (options) => {
-  return {
-    type: "div",
-    attributes: { class: "textBox", style: "display:grid; border-radius: 10px;" },
-    elements: [
-      {
-        type: "input",
-        attributes: options.attributes,
-        events: mergeObjects(options.events, {
-          focusout: function () {
-            if (!this.value) {
-              this.getAttribute("isRequired");
-            }
-            console.log(this.getAttribute("isRequired"));
-          },
-        }),
-      },
-      // { type: 'div', attributes: {style:'color: var(--white); display: none;' }, content:{innerText: "Field is required."} },
-    ],
-  };
-};
+// textInput = (options) => {
+//   return {
+//     type: "div",
+//     attributes: { class: "textBox", style: "display:grid; border-radius: 10px;" },
+//     elements: [
+//       {
+//         type: "input",
+//         attributes: options.attributes,
+//         events: mergeObjects(options.events, {
+//           focusout: function () {
+//             if (!this.value) {
+//               this.getAttribute("isRequired");
+//             }
+//             console.log(this.getAttribute("isRequired"));
+//           },
+//         }),
+//       },
+//       // { type: 'div', attributes: {style:'color: var(--white); display: none;' }, content:{innerText: "Field is required."} },
+//     ],
+//   };
+// };
 
 text = (options) => {
   return {
@@ -405,6 +421,30 @@ let grow = {
   attributes: { class: "grow", style: "" },
 };
 
+let toolbar = {
+  type: "div",
+  attributes: {
+    class: "flex vCenter p10",
+    style: "background: var(--gradientPurple);",
+  },
+  elements: [
+    image({ href: "index.html", src: "images/logo.svg" }),
+    { type: "div", attributes: { class: "grow" } },
+    anchor({
+      href: "contactus.html",
+      text: "Contact",
+      style: "color: var(--white);",
+    }),
+    { type: "div", attributes: { class: "mlr5" } },
+    anchor({
+      href: "signin.html",
+      text: "Sign in",
+      style: "color: var(--white);",
+    }),
+    { type: "div", attributes: { class: "mlr5" } },
+  ],
+};
+
 footer = () => {
   return {
     type: "div",
@@ -419,10 +459,20 @@ footer = () => {
       {
         type: "div",
         attributes: { class: "mlr5" },
-        content: { innerText: "Support" },
+        content: { innerText: "Privacy Policy" },
         events: {
           click: function () {
-            openPage("signin.html");
+            openPage("privacyPolicy.html");
+          },
+        },
+      },
+      {
+        type: "div",
+        attributes: { class: "mlr5" },
+        content: { innerText: "Terms and Conditions" },
+        events: {
+          click: function () {
+            openPage("termsAndConditions.html");
           },
         },
       },
@@ -432,7 +482,7 @@ footer = () => {
         content: { innerText: "Contact" },
         events: {
           click: function () {
-            openPage("signin.html");
+            openPage("contactus.html");
           },
         },
       },
@@ -680,129 +730,327 @@ var countries = [
   "Zimbabwe",
 ];
 
-function autocomplete(inp, arr) {
-  /*the autocomplete function takes two arguments,
-  the text field element and an array of possible autocompleted values:*/
-  var currentFocus;
-  /*execute a function when someone writes in the text field:*/
-  inp.addEventListener("input", function (e) {
-    var a, b, i, val = this.value;
-    /*close any already open lists of autocompleted values*/
-    closeAllLists();
-    if (!val) {
-      return false;
-    }
-    currentFocus = -1;
-    /*create a DIV element that will contain the items (values):*/
-    a = document.createElement("DIV");
-    a.setAttribute("id", this.id + "autocomplete-list");
-    a.setAttribute("class", "autocomplete-items");
-    /*append the DIV element as a child of the autocomplete container:*/
-    let le = document.getElementById('resultContiner')
-    console.log(le);
-    le.appendChild(a);
-    /*for each item in the array...*/
-    for (i = 0; i < arr.length; i++) {
-      /*check if the item starts with the same letters as the text field value:*/
-      if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-        /*create a DIV element for each matching element:*/
-        b = document.createElement("DIV");
-        b.style = 'border-bottom: 1px solid #d4d4d4; padding: 10px;';
-        /*make the matching letters bold:*/
-        // b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-        // b.innerHTML += arr[i].substr(val.length);
-        /*insert a input field that will hold the current array item's value:*/
-        // b.innerHTML += "<input type='hidden' style='color: black;' value='" + arr[i] + "'>";
-        console.log(autocompleteItem(arr[i]))
-        b.innerHTML += autocompleteItem(arr[i]);
-        /*execute a function when someone clicks on the item value (DIV element):*/
-        b.addEventListener("click", function (e) {
-          /*insert the value for the autocomplete text field:*/
-          inp.value = this.getElementsByTagName("input")[0].value;
-          /*close the list of autocompleted values,
-              (or any other open lists of autocompleted values:*/
-          closeAllLists();
-        });
-        a.appendChild(b);
-      }
-    }
-  });
-  /*execute a function presses a key on the keyboard:*/
-  inp.addEventListener("keydown", function (e) {
-    var x = document.getElementById(this.id + "autocomplete-list");
-    if (x) x = x.getElementsByTagName("div");
-    if (e.keyCode == 40) {
-      /*If the arrow DOWN key is pressed,
-        increase the currentFocus variable:*/
-      currentFocus++;
-      /*and and make the current item more visible:*/
-      addActive(x);
-    } else if (e.keyCode == 38) {
-      //up
-      /*If the arrow UP key is pressed,
-        decrease the currentFocus variable:*/
-      currentFocus--;
-      /*and and make the current item more visible:*/
-      addActive(x);
-    } else if (e.keyCode == 13) {
-      /*If the ENTER key is pressed, prevent the form from being submitted,*/
-      e.preventDefault();
-      if (currentFocus > -1) {
-        /*and simulate a click on the "active" item:*/
-        if (x) x[currentFocus].click();
-      }
-    }
-  });
-  function addActive(x) {
-    /*a function to classify an item as "active":*/
-    if (!x) return false;
-    /*start by removing the "active" class on all items:*/
-    removeActive(x);
-    if (currentFocus >= x.length) currentFocus = 0;
-    if (currentFocus < 0) currentFocus = x.length - 1;
-    /*add class "autocomplete-active":*/
-    x[currentFocus].classList.add("autocomplete-active");
-  }
-  function removeActive(x) {
-    /*a function to remove the "active" class from all autocomplete items:*/
-    for (var i = 0; i < x.length; i++) {
-      x[i].classList.remove("autocomplete-active");
-    }
-  }
-  function closeAllLists(elmnt) {
-    /*close all autocomplete lists in the document,
-    except the one passed as an argument:*/
-    var x = document.getElementsByClassName("autocomplete-items");
-    for (var i = 0; i < x.length; i++) {
-      if (elmnt != x[i] && elmnt != inp) {
-        x[i].parentNode.removeChild(x[i]);
-      }
-    }
-  }
-  /*execute a function when someone clicks in the document:*/
-  document.addEventListener("click", function (e) {
-    closeAllLists(e.target);
-  });
-}
-
-// autoCompleteItem = () => {
-//   return {
-//     type: 'div', attributes:{ style:'' }, elements: [
-//       text('COATED CABLE '),
-//       text('vendor: Legrand.  Part No. 445A2-C'),
-//     ]
+// function autocomplete(inp, arr) {
+//   /*the autocomplete function takes two arguments,
+//   the text field element and an array of possible autocompleted values:*/
+//   var currentFocus;
+//   /*execute a function when someone writes in the text field:*/
+//   inp.addEventListener("input", function (e) {
+//     var a, b, i, val = this.value;
+//     /*close any already open lists of autocompleted values*/
+//     closeAllLists();
+//     if (!val) {
+//       return false;
+//     }
+//     currentFocus = -1;
+//     /*create a DIV element that will contain the items (values):*/
+//     a = document.createElement("DIV");
+//     a.setAttribute("id", this.id + "autocomplete-list");
+//     a.setAttribute("class", "autocomplete-items");
+//     /*append the DIV element as a child of the autocomplete container:*/
+//     let le = document.getElementById('resultContiner')
+//     console.log(le);
+//     le.appendChild(a);
+//     /*for each item in the array...*/
+//     for (i = 0; i < arr.length; i++) {
+//       /*check if the item starts with the same letters as the text field value:*/
+//       if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+//         /*create a DIV element for each matching element:*/
+//         b = document.createElement("DIV");
+//         b.style = 'border-bottom: 1px solid #d4d4d4; padding: 10px;';
+//         /*make the matching letters bold:*/
+//         // b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+//         // b.innerHTML += arr[i].substr(val.length);
+//         /*insert a input field that will hold the current array item's value:*/
+//         // b.innerHTML += "<input type='hidden' style='color: black;' value='" + arr[i] + "'>";
+//         console.log(autocompleteItem(arr[i]))
+//         b.innerHTML += autocompleteItem(arr[i]);
+//         /*execute a function when someone clicks on the item value (DIV element):*/
+//         b.addEventListener("click", function (e) {
+//           /*insert the value for the autocomplete text field:*/
+//           inp.value = this.getElementsByTagName("input")[0].value;
+//           /*close the list of autocompleted values,
+//               (or any other open lists of autocompleted values:*/
+//           closeAllLists();
+//         });
+//         a.appendChild(b);
+//       }
+//     }
+//   });
+//   /*execute a function presses a key on the keyboard:*/
+//   inp.addEventListener("keydown", function (e) {
+//     var x = document.getElementById(this.id + "autocomplete-list");
+//     if (x) x = x.getElementsByTagName("div");
+//     if (e.keyCode == 40) {
+//       /*If the arrow DOWN key is pressed,
+//         increase the currentFocus variable:*/
+//       currentFocus++;
+//       /*and and make the current item more visible:*/
+//       addActive(x);
+//     } else if (e.keyCode == 38) {
+//       //up
+//       /*If the arrow UP key is pressed,
+//         decrease the currentFocus variable:*/
+//       currentFocus--;
+//       /*and and make the current item more visible:*/
+//       addActive(x);
+//     } else if (e.keyCode == 13) {
+//       /*If the ENTER key is pressed, prevent the form from being submitted,*/
+//       e.preventDefault();
+//       if (currentFocus > -1) {
+//         /*and simulate a click on the "active" item:*/
+//         if (x) x[currentFocus].click();
+//       }
+//     }
+//   });
+//   function addActive(x) {
+//     /*a function to classify an item as "active":*/
+//     if (!x) return false;
+//     /*start by removing the "active" class on all items:*/
+//     removeActive(x);
+//     if (currentFocus >= x.length) currentFocus = 0;
+//     if (currentFocus < 0) currentFocus = x.length - 1;
+//     /*add class "autocomplete-active":*/
+//     x[currentFocus].classList.add("autocomplete-active");
 //   }
+//   function removeActive(x) {
+//     /*a function to remove the "active" class from all autocomplete items:*/
+//     for (var i = 0; i < x.length; i++) {
+//       x[i].classList.remove("autocomplete-active");
+//     }
+//   }
+//   function closeAllLists(elmnt) {
+//     /*close all autocomplete lists in the document,
+//     except the one passed as an argument:*/
+//     var x = document.getElementsByClassName("autocomplete-items");
+//     for (var i = 0; i < x.length; i++) {
+//       if (elmnt != x[i] && elmnt != inp) {
+//         x[i].parentNode.removeChild(x[i]);
+//       }
+//     }
+//   }
+//   /*execute a function when someone clicks in the document:*/
+//   document.addEventListener("click", function (e) {
+//     closeAllLists(e.target);
+//   });
 // }
-autocompleteItem = (title_) => {
+
+autoCompleteItem = (title, details, qty, events) => {
+  return {
+    type: "div",
+    attributes: { class: "" },
+    elements: [
+      textInput({
+        attributes: { type: "hidden", value: title, style: "color: black;" },
+      }),
+      text({
+        text: title,
+        attributes: {
+          class: "noBorder fs16 f800",
+          style: "color: #1D293F; font-size: 15px; font-weight: 800;",
+        },
+      }),
+      {
+        type: "div",
+        attributes: { style: "align-items: flex-end;", class: "flex noBorder" },
+        elements: [
+          text({ text: details, attributes: { class: "noBorder", style: "" } }),
+          grow,
+          text({
+            text: "45% discount.",
+            attributes: { class: "black", style: "" },
+          }),
+          text({
+            text: `Qty: ${qty}`,
+            attributes: { class: "mlr10 black", style: "" },
+          }),
+          {
+            type: "input",
+            attributes: {
+              class: "addButton",
+              type: "button",
+              value: "Add",
+              style: "width: 120px;",
+            },
+            events: {
+              click: function () {
+                // renderAsync(modal({ width: '350px;', height: '200px', src: 'bidNow.html' }), document.body)
+                openPage("dealDetails.html");
+              },
+            },
+          },
+          // textInput({title: 'Add', type: 'button', attributes: { class:'addButton', style:'' }}),
+          // {type: 'div', attributes:{ type:'button', class: 'addButton', value:'Add' }}
+        ],
+      },
+    ],
+    events: events,
+  };
+};
+
+autocompleteItem = (title, details, qty) => {
   return `
-    <input type='hidden' style='color: black;' value='${title_} '>
-    <div class='noBorder' style='color: #1D293F; font-size: 15px; font-weight: 800;'> ${title_} </div>
+    <input type='hidden' style='color: black;' value='${title} '>
+    <div class='noBorder' style='color: #1D293F; font-size: 15px; font-weight: 800;'> ${title} </div>
     <div class="flex noBorder" style="align-items: flex-end;">
-        <div class="noBorder"> vendor: Legrand.  Part No. 445A2-C </div>
+        <div class="noBorder"> ${details} </div>
         <div class="grow"></div>
         <div>45% discount.</div>
-        <div class="mlr10">Qty: 45</div>
+        <div class="mlr10">Qty: ${qty}</div>
         <input type="button" class="addButton"  value="Add">
     </div>
-`
-}
+`;
+};
+
+let autoComplete = function (attributes) {
+  !attributes.displayField ? (attributes.displayField = "name") : false;
+  !attributes.valueField ? (attributes.valueField = "id") : false;
+  !attributes.data ? (attributes.data = load(field.name)) : false;
+
+  let results = [];
+
+  let element = {
+    type: "div",
+    attributes: mergeObjects(attributes.container, { class: "autoComplete" }),
+    elements: [
+      {
+        type: "input",
+        attributes: mergeObjects(attributes.input, {
+          type: "text",
+          autoComplete: "off",
+        }), //, style: `background:url(${assetsPath}down-arrow.png) no-repeat  center   ; background-position-x:98%;`
+        events: {
+          dblclick: function () {
+            this.nextSibling.style.display =
+              this.nextSibling.style.display == "block" ? "none" : "block";
+          },
+          DOMNodeInserted: function () {
+            for (ev in attributes.input.events) {
+              this.addEventListener(ev, attributes.input.events[ev]);
+            }
+            attributes.data.forEach((entry, index) => {
+              if (
+                entry[attributes.valueField] ==
+                this.getAttribute("selectedValue")
+              ) {
+                this.value = entry[attributes.displayField];
+                this.setAttribute(
+                  "selectedText",
+                  entry[attributes.displayField]
+                );
+              }
+            });
+          },
+
+          input: function () {
+            resultsFound = false;
+            [].slice.call(this.nextSibling.children).forEach((item) => {
+              item.classList.remove("selected");
+              if (
+                item.innerText.toLowerCase().includes(this.value.toLowerCase())
+              ) {
+                item.style.display = "block";
+                resultsFound = true;
+              } else {
+                item.style.display = "none";
+              }
+            });
+            this.index = -1;
+            results = this.nextSibling.querySelectorAll(
+              '[style="display: block;"]'
+            );
+            resultsFound ? (this.nextSibling.style.display = "block") : false;
+            this.value == ""
+              ? (this.nextSibling.style.display = "none")
+              : false;
+          },
+          keydown: function (e) {
+            switch (e.keyCode) {
+              case 38:
+                [].forEach.call(results, function (el) {
+                  el.classList.remove("selected");
+                });
+                this.index =
+                  this.index == -1 || this.index == 0
+                    ? results.length - 1
+                    : this.index - 1;
+                results[this.index].classList.add("selected");
+
+                break;
+              case 40:
+                [].forEach.call(results, function (el) {
+                  el.classList.remove("selected");
+                });
+                this.index =
+                  this.index == results.length - 1 ? 0 : this.index + 1;
+                results[this.index].classList.add("selected");
+                break;
+
+              case 13:
+                this.value = results[this.index].innerText;
+                this.nextSibling.style.display = "none";
+
+                this.setAttribute(
+                  "selectedValue",
+                  results[this.index].getAttribute("value")
+                );
+                this.setAttribute("selectedText", this.value);
+                // element.selectedValue = results[this.index].getAttribute('value');
+                element.elements[0].attributes.selectedValue =
+                  results[this.index].getAttribute("value");
+                break;
+
+              default:
+                break;
+            }
+          },
+        },
+      },
+
+      {
+        type: "div",
+        attributes: { id: "rc", class: "autocomplete-items" },
+        elements: (function () {
+          let items = [];
+          attributes.data.forEach((entry, index) => {
+            items.push({
+              type: "div",
+              attributes: {
+                class: "item",
+                index: index,
+                value: entry[attributes.valueField],
+                datatype: entry.type,
+              },
+              content: { innerHTML: entry[attributes.displayField] },
+              events: {
+                click: function () {
+                  this.parentNode.previousSibling.value = this.innerText;
+                  this.parentNode.style.display = "none";
+                  this.parentNode.previousSibling.setAttribute(
+                    "selectedValue",
+                    this.getAttribute("value")
+                  );
+                  this.parentNode.previousSibling.setAttribute(
+                    "selectedText",
+                    this.innerText
+                  );
+                  element.elements[0].attributes.selectedValue =
+                    this.getAttribute("value");
+                  var event = new Event("change");
+                  this.parentNode.previousSibling.dispatchEvent(event);
+                },
+              },
+            });
+          });
+          return items;
+        })(),
+      },
+    ],
+    //maybe variable
+    selectedValue: function () {
+      return this.elements[0].attributes.selectedValue;
+    },
+  };
+
+  return element;
+};

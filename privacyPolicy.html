@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C2C - Exchnage </title>
+    <title>C2C - ( Terms and Conditions ) </title>
 
     <link rel="stylesheet" href="css/style.css">
     <script src="js/common.js"></script>
@@ -19,49 +19,16 @@
 
 </html>
 <script>
-
     let cardFooter = {
-        type: 'div', attributes: { class: '', style: '' },
+        type: 'div', attributes: { class: 'center', style: '' },
         elements: [
-            text({ text: 'No. 22321', attributes: { class: 'fs18 f700' } }),
             {
-                type: 'div', attributes: { class: 'flex', style: 'align-items: flex-end; flex-gap:0px;' },
-                elements: [
-                    text({ type: 'div', text: '30%', attributes: { class: 'mlr5 fs40 f700' } }),
-                    text({ type: 'div', text: 'discount', attributes: { class: 'mlr5 fs20  f500' } }),
+                type: 'div', attributes: { class: 'c', style: 'height: 51px; background: #f4f7f9;' }, elements: [
+                    text({ type: 'div', text: 'Privacy Policy', attributes: { class: 'mlr5 fs40 f700' } })
                 ]
             }
         ]
     }
-
-    let tableHeader = {
-        type: 'div', attributes: { class: 'tableHeader', style: 'height: 51px;' }, elements: [
-            text({ type: 'div', text: 'Part#', attributes: { class: 'c fs12 f700', style: 'color: #989898;' } }),
-            text({ type: 'div', text: 'Description', attributes: { class: 'c fs12 f700', style: 'color: #989898;' } }),
-            text({ type: 'div', text: 'U. Price', attributes: { class: 'c fs12 f700', style: 'color: #989898;' } }),
-            text({ type: 'div', text: 'Discount', attributes: { class: 'c fs12 f700', style: 'color: #989898;' } }),
-            text({ type: 'div', text: 'QTY', attributes: { class: 'c fs12 f700', style: 'color: #989898;' } }),
-            text({ type: 'div', text: 'Deal Value', attributes: { class: 'c fs12 f700', style: 'color: #989898;' } }),
-        ]
-    }
-
-    let options = {
-        styles: { header: { style: 'height: 51px; background: #F4F7F9; color: #989898', class: 'c fs12 f700' } },
-        fields: [
-            { name: 'part' },
-            { name: 'description' },
-            { name: 'uprice' },
-            { name: 'discount' },
-            { name: 'qty' },
-            { name: 'deal' }
-        ]
-    }
-
-    options.data = [
-        { id: 1, part: 'part1', description: 'Description1', uprice: 'price1', discount: 'discount1', qty: 'qty1', deal: 'Deal1' },
-        { id: 2, part: 'part2', description: 'Description2', uprice: 'price2', discount: 'discount2', qty: 'qty2', deal: 'Deal2' },
-        { id: 3, part: 'part3', description: 'Description3', uprice: 'price3', discount: 'discount3', qty: 'qty3', deal: 'Deal1' },
-        { id: 4, part: 'part4', description: 'Description4', uprice: 'price4', discount: 'discount4', qty: 'qty4', deal: 'Deal2' }]
 
     let paragraph = {
         type: 'div', elements: [
@@ -81,22 +48,10 @@ Section 1.10.33 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
 
 1914 translation by H. Rackham
 "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains."`}),
-            {
-                type: 'div', attributes: { class: 'flex ptb10' }, elements: [
-                    { type: 'div', attributes: { class: 'grow' } },
-                    {
-                        type: 'input', attributes: { class: 'placeOrderButton', type: 'button', value: '14 Days Trial', style: '' }, events: {
-                            click: function () {
-                                openPage('signup.html')
-                            }
-                        }
-                    }
-                ]
-            }
         ]
     }
 
-    let container = { type: 'div', attributes: { class: 'blockWithPadding', style: '' }, elements: [cardFooter, tabularView(options), gap, paragraph] }
+    let container = { type: 'div', attributes: { class: 'blockWithPadding', style: '' }, elements: [cardFooter, gap, paragraph] }
 
     let layout = { type: 'div', attributes: { class: 'container', style: 'display: grid; grid-template-rows: 60px auto 60px; height: 100%;' }, elements: [toolbar, container, footer()] }
 
